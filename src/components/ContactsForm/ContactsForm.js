@@ -1,4 +1,4 @@
-import { Formik } from 'formik';
+import { Field, Formik } from 'formik';
 import {
   StyledForm,
   StyledField,
@@ -7,6 +7,7 @@ import {
 } from './ContactsForm.styled';
 import * as Yup from 'yup';
 import { nanoid } from 'nanoid';
+import { PatternFormat } from 'react-number-format';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/contactsSlice';
 import { getContacts } from 'redux/selectors';
@@ -41,15 +42,26 @@ export const ContactsForm = () => {
       validationSchema={schema}
       onSubmit={onSubmit}
     >
-      <StyledForm>
+      <StyledForm autoComplete="off">
         <label>Name</label>
-        <StyledField id="name" name="name" placeholder="Enter name" />
+        <Field
+          as={StyledField}
+          name="name"
+          placeholder="Enter name"
+          style={{ width: '440px' }}
+        />
         <StyledError name="name" component="div" />
         <label>Number</label>
-        <StyledField
-          id="number"
+        <Field
+          as={PatternFormat}
+          customInput={StyledField}
           name="number"
-          placeholder="Enter phone number"
+          placeholder="Enter number"
+          variant="standard"
+          style={{ width: '440px' }}
+          format="###-##-##"
+          allowEmptyFormatting={true}
+          mask="#"
         />
         <StyledError name="number" component="div" />
         <AddBtn type="submit">Add contact</AddBtn>
