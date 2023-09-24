@@ -1,6 +1,4 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
-import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 
 const contactsInitialState = [
   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -12,12 +10,12 @@ export const contactsSlice = createSlice({
   // Ім'я слайсу
   name: 'contacts',
   // Початковий стан редюсера слайсу
-  initialState: { contacts: contactsInitialState },
+  initialState: contactsInitialState,
   // Об'єкт редюсерів
   reducers: {
     addContact: {
       reducer(state, action) {
-        state.contacts.push(action.payload);
+        state.push(action.payload);
       },
       payload: {
         id: nanoid(),
@@ -25,22 +23,12 @@ export const contactsSlice = createSlice({
     },
 
     deleteContact(state, action) {
-      const index = state.contacts.findIndex(
-        task => task.id === action.payload
-      );
-      state.contacts.splice(index, 1);
+      const index = state.findIndex(task => task.id === action.payload);
+      state.splice(index, 1);
     },
   },
 });
-const persistConfig = {
-  key: 'contacts',
-  storage,
-  whitelist: ['contacts'],
-};
-// Експортуємо редюсер
-export const contactsReducer = persistReducer(
-  persistConfig,
-  contactsSlice.reducer
-);
-// Експортуємо генератори екшенів
+
+// Експортуємо редюсер та генератори екшенів
+export const contactsReducer = contactsSlice.reducer;
 export const { addContact, deleteContact } = contactsSlice.actions;

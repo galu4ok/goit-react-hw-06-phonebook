@@ -6,11 +6,11 @@ const filterSlice = createSlice({
   // Ім'я слайсу
   name: 'filter',
   // Початковий стан редюсера слайсу
-  initialState: { filter: filterInitialState },
+  initialState: filterInitialState,
   // Об'єкт редюсерів
   reducers: {
     changeFilter(state, action) {
-      state.filter = action.payload;
+      return action.payload;
     },
   },
 });
